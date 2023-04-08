@@ -1,7 +1,7 @@
 import java.util.*;
 import java.lang.*;
 
-class Main {
+public class NgramA {
   public static void printPermArr(ArrayList<Item> key)
   {
     int num;
@@ -85,8 +85,7 @@ class Main {
   {
     ArrayList<Item> arr = new ArrayList<Item>();
     while(word.length()%itemLen!=0){
-      word+=String.valueOf((char)0);}
-      //word+="A";}
+      word+="A";}
     int pos1=0;
     int pos2=itemLen;
     int num=0;
@@ -278,6 +277,23 @@ class Main {
     return plaintext;
   }
 
+  public static String removeExtras(String text)
+  {
+    String fixed="";
+    ArrayList<String> textArr = new ArrayList<String>();
+    for(int x=0; x<text.length(); x++){
+      textArr.add(String.valueOf(text.charAt(x)));}
+    int c=textArr.size()-1;
+    while(textArr.get(c).equals("A"))
+    {
+      textArr.remove(c);
+      c--;
+    }
+    for(int x=0; x<textArr.size(); x++){
+      fixed+=textArr.get(x);}
+    return fixed;
+  }
+
   public static Item permEncrypt(String plaintext)
 	{
     int len=plaintext.length();
@@ -292,7 +308,7 @@ class Main {
     {
       ArrayList<Item> perms=createPerms(ciphertext,itemLen);
       ArrayList<Item> key=permsProduct(perms);
-      ciphertext=format(encrypt(ciphertext,key,itemLen));
+      ciphertext=encrypt(ciphertext,key,itemLen);
       System.out.print("Round "+itemLen+" key: ");
       printPermArr(key);
       System.out.println("Round "+itemLen+" pre-shift: "+ciphertext);
@@ -317,11 +333,12 @@ class Main {
     {
       ArrayList<Item> perms=createPerms(plaintext,itemLen);
       ArrayList<Item> key=permsProduct(perms);
-      plaintext=format(decrypt(plaintext,key,itemLen));
+      plaintext=decrypt(plaintext,key,itemLen);
       System.out.print("Round "+itemLen+" key: ");
       printPermArr(key);
       System.out.println("Round "+itemLen+" pre-shift: "+plaintext);
       plaintext=shiftDecrypt(plaintext,itemLen);
+      plaintext=removeExtras(plaintext);
       System.out.println("Round "+itemLen+" plaintext: "+plaintext);
       itemLen--;
     }
@@ -329,7 +346,7 @@ class Main {
     return plaintext;
   }
 
-  public static void NgramNull()
+  public static void NgramA()
   {
     Scanner input = new Scanner(System.in);
     System.out.print("Enter message: ");
@@ -338,6 +355,9 @@ class Main {
     System.out.println("\nEncryption: ");
     Item encrypted=permEncrypt(plaintext);
     System.out.println("\nDecryption: ");
-    String decrypted=permDecrypt(encrypted);
+    try{
+    String decrypted=permDecrypt(encrypted);}
+    catch(Exception e){
+      System.out.println("oopsies!");}
   }
 }

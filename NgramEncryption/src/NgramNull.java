@@ -1,7 +1,7 @@
 import java.util.*;
 import java.lang.*;
 
-class Main {
+public class NgramNull {
   public static void printPermArr(ArrayList<Item> key)
   {
     int num;
@@ -28,7 +28,7 @@ class Main {
       for(int x=0; x<word.length(); x++)
       {
           char letter=word.charAt(x);
-          if(letter>=65 && letter<=90){
+          if(letter>=32 && letter<=126){
               newWord+=Character.toString(letter);}
       }
       return newWord;
@@ -85,7 +85,8 @@ class Main {
   {
     ArrayList<Item> arr = new ArrayList<Item>();
     while(word.length()%itemLen!=0){
-      word+="A";}
+      word+=String.valueOf((char)0);}
+      //word+="A";}
     int pos1=0;
     int pos2=itemLen;
     int num=0;
@@ -188,7 +189,7 @@ class Main {
     String newWord="";
     for(int x=0; x<word.length(); x++)
     {
-      letter=(char)((((int)word.charAt(x)+itemLen-65)%26)+65);
+      letter=(char)((((int)word.charAt(x)+itemLen-32)%94)+32);
       newWord+=letter;
     }
     return newWord;
@@ -200,7 +201,7 @@ class Main {
     String newWord="";
     for(int x=0; x<word.length(); x++)
     {
-      letter=(char)(((((int)word.charAt(x)-itemLen-65)%26+26)%26)+65);
+      letter=(char)(((((int)word.charAt(x)-itemLen-32)%94+94)%94)+32);
       newWord+=letter;
     }
     return newWord;
@@ -277,23 +278,6 @@ class Main {
     return plaintext;
   }
 
-  public static String removeExtras(String text)
-  {
-    String fixed="";
-    ArrayList<String> textArr = new ArrayList<String>();
-    for(int x=0; x<text.length(); x++){
-      textArr.add(String.valueOf(text.charAt(x)));}
-    int c=textArr.size()-1;
-    while(textArr.get(c).equals("A"))
-    {
-      textArr.remove(c);
-      c--;
-    }
-    for(int x=0; x<textArr.size(); x++){
-      fixed+=textArr.get(x);}
-    return fixed;
-  }
-
   public static Item permEncrypt(String plaintext)
 	{
     int len=plaintext.length();
@@ -308,7 +292,7 @@ class Main {
     {
       ArrayList<Item> perms=createPerms(ciphertext,itemLen);
       ArrayList<Item> key=permsProduct(perms);
-      ciphertext=encrypt(ciphertext,key,itemLen);
+      ciphertext=format(encrypt(ciphertext,key,itemLen));
       System.out.print("Round "+itemLen+" key: ");
       printPermArr(key);
       System.out.println("Round "+itemLen+" pre-shift: "+ciphertext);
@@ -333,12 +317,11 @@ class Main {
     {
       ArrayList<Item> perms=createPerms(plaintext,itemLen);
       ArrayList<Item> key=permsProduct(perms);
-      plaintext=decrypt(plaintext,key,itemLen);
+      plaintext=format(decrypt(plaintext,key,itemLen));
       System.out.print("Round "+itemLen+" key: ");
       printPermArr(key);
       System.out.println("Round "+itemLen+" pre-shift: "+plaintext);
       plaintext=shiftDecrypt(plaintext,itemLen);
-      plaintext=removeExtras(plaintext);
       System.out.println("Round "+itemLen+" plaintext: "+plaintext);
       itemLen--;
     }
@@ -346,18 +329,15 @@ class Main {
     return plaintext;
   }
 
-  public static void NgramA()
+  public static void NgramNull()
   {
     Scanner input = new Scanner(System.in);
     System.out.print("Enter message: ");
     String message=input.nextLine();
     String plaintext=format(message);
-    //System.out.println("\nEncryption: ");
+    System.out.println("\nEncryption: ");
     Item encrypted=permEncrypt(plaintext);
-    //System.out.println("\nDecryption: ");
-    try{
-    String decrypted=permDecrypt(encrypted);}
-    catch(Exception e){
-      System.out.println("oopsies!");}
+    System.out.println("\nDecryption: ");
+    String decrypted=permDecrypt(encrypted);
   }
 }
