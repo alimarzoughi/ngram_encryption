@@ -1,4 +1,4 @@
-# Ngram Encryption
+# Multiple Encryption via Cyclic Permutations
 
 As it currently stands, there are only so many secure
 encryption systems, and as technology gets exponentially
@@ -14,8 +14,8 @@ the multiplication of cyclic permutations is used to make two
 variants of an encryption system that is cascaded n times, for
 any number n, depending on the length of the plaintext being
 encrypted. The two variants, NgramA and NgramNull, were tested 
-and analyzed in Java. The Null variant hardly functions
-properly, while the A variant works a vast majority of the time.
-The security of the A variant is also astoundingly
+and analyzed in Java. The NgramNull variant hardly functions
+properly, while the NgramA variant works a vast majority of the time.
+The security of the NgramA variant is also astoundingly
 improved, suggesting that cascading to the nth level is worth
 further investigation on a larger scale.
