@@ -1,4 +1,4 @@
-#Ngram Encryption
+# Ngram Encryption
 
 As it currently stands, there are only so many secure
 encryption systems, and as technology gets exponentially
